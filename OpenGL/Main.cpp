@@ -2,14 +2,16 @@
 
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
+#include<stb_image.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include"ShaderManager.h"
-#include"stb_image.h"
 
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
-
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
