@@ -60,22 +60,29 @@ int main()
 
 	//define a triangle
 	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		0.0f,  0.5f, 0.0f
+		//position           //color
+		0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 0.0f, 
+		-0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  
+		0.0f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f  
 	};
 	
 	// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-	unsigned int VBO, VAO;
+	unsigned int VAO;
 	glGenVertexArrays(1, &VAO);		
 	glBindVertexArray(VAO);
 
+	unsigned int VBO;
 	glGenBuffers(1, &VBO);	
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	//vertex position attribute
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+
+	//vertex color attribute
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 
 	// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
 	//glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -83,6 +90,9 @@ int main()
 	// You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
 	// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
 	//glBindVertexArray(0);
+
+	//activate shader
+	shader_manager.use();
 
 	//render loop
 	while (!glfwWindowShouldClose(window))
@@ -94,7 +104,16 @@ int main()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);//deep green
 		glClear(GL_COLOR_BUFFER_BIT);//use deep green to clear the screen
 
-		shader_manager.use();
+		//set uniform color
+		/*float timeValue = glfwGetTime();
+		float greenValue = sin(timeValue) / 2.0f + 0.5f;
+		int vertexColorLocation = glGetUniformLocation(shader_manager.shader_program_id, "ourColor");
+		glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);*/
+
+		//activate shader
+		//shader_manager.use();
+
+		//draw triangle
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
@@ -104,6 +123,9 @@ int main()
 		//swap buffers
 		glfwSwapBuffers(window);//when one frame is rendered in the back end, swap it to front end		
 	}
+
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
 
 	//release resources;
 	glfwTerminate();
