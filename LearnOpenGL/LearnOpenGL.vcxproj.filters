@@ -72,5 +72,11 @@
     <None Include="Shaders\test.vert">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="Shaders\light.frag">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Shaders\light.vert">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>
