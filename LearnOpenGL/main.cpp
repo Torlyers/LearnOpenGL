@@ -137,93 +137,79 @@ int main()
 	//render size, set it to window size
 	glViewport(SCR_POS_X, SCR_POS_Y, SCR_WIDTH, SCR_HEIGHT);
 	
-	//Init shader manager
 	Shader shader("Shaders/test.vert", "Shaders/test.frag");
+	Shader LightShader("Shaders/light.vert", "Shaders/light.frag");
 
 	Model gameobj("Assets/nanosuit/nanosuit.obj");
 
-// 	float Vertices[] =
-// 	{
-// 		
-// 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-// 		0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-// 		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-// 		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-// 		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-// 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-// 
-// 		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-// 		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-// 		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-// 		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-// 		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-// 		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-// 
-// 		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-// 		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-// 		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-// 		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-// 		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-// 		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-// 
-// 		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-// 		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-// 		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-// 		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-// 		0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-// 		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-// 
-// 		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-// 		0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-// 		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-// 		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-// 		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-// 		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-// 
-// 		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-// 		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-// 		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-// 		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-// 		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-// 		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-// 	};
+	float CubeVertices[] =
+	{
 
-// 	glm::vec3 cubePositions[] = {
-// 		glm::vec3(0.0f,  0.0f,  0.0f),
-// 		glm::vec3(2.0f,  5.0f, -15.0f),
-// 		glm::vec3(-1.5f, -2.2f, -2.5f),
-// 		glm::vec3(-3.8f, -2.0f, -12.3f),
-// 		glm::vec3(2.4f, -0.4f, -3.5f),
-// 		glm::vec3(-1.7f,  3.0f, -7.5f),
-// 		glm::vec3(1.3f, -2.0f, -2.5f),
-// 		glm::vec3(1.5f,  2.0f, -2.5f),
-// 		glm::vec3(1.5f,  0.2f, -1.5f),
-// 		glm::vec3(-1.3f,  1.0f, -1.5f)
-// 	};
-	
-// 	unsigned int VAO, VBO;
-// 	glGenVertexArrays(1, &VAO);
-// 	glGenBuffers(1, &VBO);
-// 
-// 	glBindVertexArray(VAO);
-// 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-// 
-// 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
-// 
-// 	// position attribute
-// 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-// 	glEnableVertexAttribArray(0);
-// 	// texture coord attribute
-// 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-// 	glEnableVertexAttribArray(1);
-// 
-// 	unsigned int texture1 = GenerateTexture("Assets/1.jpg");
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+		0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 
-	shader.use();
-	//shader.setInt("texture_diffuse1", 0);
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
 
-	vec3 origin(0.0f, 0.0f, 10.0f);
-	MainCamera.SetPosition(origin);
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+	};
+
+	unsigned int VBO;
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(CubeVertices), CubeVertices, GL_STATIC_DRAW);
+
+	unsigned LightVAO;
+	glGenVertexArrays(1, &LightVAO);
+	glBindVertexArray(LightVAO);
+
+	// position attribute
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	// texture coord attribute
+	// 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	// 	glEnableVertexAttribArray(2);
+
+	//unsigned int texture1 = GenerateTexture("Assets/1.jpg");
+
+	// 	shader.use();
+	// 	shader.setInt("texture_diffuse1", 0);
+
+	vec3 LightPos(1.2f, 1.0f, 2.0f);
 
 	//render loop
 	while (!glfwWindowShouldClose(window))
@@ -248,8 +234,9 @@ int main()
 		shader.use();
 		
 		glm::mat4 model;
-		model = glm::translate(model, glm::vec3(sin(timeValue), -0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(5.0f, 2.0f, 0.0f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
 		int modelHandler = glGetUniformLocation(shader.GetID(), "model");
 		glUniformMatrix4fv(modelHandler, 1, GL_FALSE, glm::value_ptr(model));
