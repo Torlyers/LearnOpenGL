@@ -140,90 +140,90 @@ int main()
 	//Init shader manager
 	Shader shader("Shaders/test.vert", "Shaders/test.frag");
 
-	//Model gameobj("Assets/nanosuit/nanosuit.obj");
+	Model gameobj("Assets/nanosuit/nanosuit.obj");
 
-	float Vertices[] =
-	{
-		
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+// 	float Vertices[] =
+// 	{
+// 		
+// 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+// 		0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+// 		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+// 		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+// 		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+// 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+// 
+// 		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+// 		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+// 		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+// 		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+// 		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+// 		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+// 
+// 		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+// 		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+// 		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+// 		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+// 		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+// 		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+// 
+// 		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+// 		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+// 		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+// 		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+// 		0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+// 		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+// 
+// 		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+// 		0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+// 		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+// 		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+// 		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+// 		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+// 
+// 		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+// 		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+// 		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+// 		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+// 		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+// 		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+// 	};
 
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-	};
-
-	glm::vec3 cubePositions[] = {
-		glm::vec3(0.0f,  0.0f,  0.0f),
-		glm::vec3(2.0f,  5.0f, -15.0f),
-		glm::vec3(-1.5f, -2.2f, -2.5f),
-		glm::vec3(-3.8f, -2.0f, -12.3f),
-		glm::vec3(2.4f, -0.4f, -3.5f),
-		glm::vec3(-1.7f,  3.0f, -7.5f),
-		glm::vec3(1.3f, -2.0f, -2.5f),
-		glm::vec3(1.5f,  2.0f, -2.5f),
-		glm::vec3(1.5f,  0.2f, -1.5f),
-		glm::vec3(-1.3f,  1.0f, -1.5f)
-	};
+// 	glm::vec3 cubePositions[] = {
+// 		glm::vec3(0.0f,  0.0f,  0.0f),
+// 		glm::vec3(2.0f,  5.0f, -15.0f),
+// 		glm::vec3(-1.5f, -2.2f, -2.5f),
+// 		glm::vec3(-3.8f, -2.0f, -12.3f),
+// 		glm::vec3(2.4f, -0.4f, -3.5f),
+// 		glm::vec3(-1.7f,  3.0f, -7.5f),
+// 		glm::vec3(1.3f, -2.0f, -2.5f),
+// 		glm::vec3(1.5f,  2.0f, -2.5f),
+// 		glm::vec3(1.5f,  0.2f, -1.5f),
+// 		glm::vec3(-1.3f,  1.0f, -1.5f)
+// 	};
 	
-	unsigned int VAO, VBO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
-
-	// position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	// texture coord attribute
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-
-	unsigned int texture1 = GenerateTexture("Assets/1.jpg");
-	unsigned int texture2 = GenerateTexture("Assets/1.png");
+// 	unsigned int VAO, VBO;
+// 	glGenVertexArrays(1, &VAO);
+// 	glGenBuffers(1, &VBO);
+// 
+// 	glBindVertexArray(VAO);
+// 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+// 
+// 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+// 
+// 	// position attribute
+// 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+// 	glEnableVertexAttribArray(0);
+// 	// texture coord attribute
+// 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+// 	glEnableVertexAttribArray(1);
+// 
+// 	unsigned int texture1 = GenerateTexture("Assets/1.jpg");
 
 	shader.use();
-	shader.setInt("texture1", 0);
-	shader.setInt("texture2", 1);
-	
+	//shader.setInt("texture_diffuse1", 0);
+
+	vec3 origin(0.0f, 0.0f, 10.0f);
+	MainCamera.SetPosition(origin);
 
 	//render loop
 	while (!glfwWindowShouldClose(window))
@@ -240,18 +240,19 @@ int main()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);//deep green
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);//use deep green to clear the screen
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture1);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, texture2);
+// 		glActiveTexture(GL_TEXTURE0);
+// 		glBindTexture(GL_TEXTURE_2D, texture1);
 		//transform
-		//double timeValue = glfwGetTime();
+		double timeValue = glfwGetTime();
 
 		shader.use();
 		
-// 		glm::mat4 model;
-// 		model = glm::translate(model, glm::vec3(sin(timeValue), -0.0f, 0.0f));
-// 		model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		glm::mat4 model;
+		model = glm::translate(model, glm::vec3(sin(timeValue), -0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		int modelHandler = glGetUniformLocation(shader.GetID(), "model");
+		glUniformMatrix4fv(modelHandler, 1, GL_FALSE, glm::value_ptr(model));
 
 		glm::mat4 view = MainCamera.GetViewMatrix();
 		//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
@@ -267,35 +268,33 @@ int main()
 // 		glm::mat4 model;
 // 		model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
 // 		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
-		
+
+// 		glBindVertexArray(VAO);
+// 		for (unsigned int i = 0; i < 10; i++)
+// 		{
+// 			// calculate the model matrix for each object and pass it to shader before drawing
+// 			glm::mat4 model;
+// 			model = glm::translate(model, cubePositions[i]);
+// 			float angle = 20.0f * i;
+// 			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+// 			int modelHandler = glGetUniformLocation(shader.GetID(), "model");
+// 			glUniformMatrix4fv(modelHandler, 1, GL_FALSE, glm::value_ptr(model));
+// 
+// 			glDrawArrays(GL_TRIANGLES, 0, 36);
+// 		}	
+
 		//render
-		//gameobj.Draw(shader);		
+		gameobj.Draw(shader);
 
-		glBindVertexArray(VAO);
-		for (unsigned int i = 0; i < 10; i++)
-		{
-			// calculate the model matrix for each object and pass it to shader before drawing
-			glm::mat4 model;
-			model = glm::translate(model, cubePositions[i]);
-			float angle = 20.0f * i;
-			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-			int modelHandler = glGetUniformLocation(shader.GetID(), "model");
-			glUniformMatrix4fv(modelHandler, 1, GL_FALSE, glm::value_ptr(model));
-
-			glDrawArrays(GL_TRIANGLES, 0, 36);
-		}
-
-		
-
-		//check events
-		glfwPollEvents();
 
 		//swap buffers
-		glfwSwapBuffers(window);//when one frame is rendered in the back end, swap it to front end		
+		glfwSwapBuffers(window);//when one frame is rendered in the back end, swap it to front end	
+		//check events
+		glfwPollEvents();			
 	}
 
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
+// 	glDeleteVertexArrays(1, &VAO);
+// 	glDeleteBuffers(1, &VBO);
 
 	//release resources;
 	glfwTerminate();

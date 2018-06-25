@@ -14,6 +14,8 @@ struct Vertex
 	vec3 m_Position;
 	vec3 m_Normal;
 	vec2 m_TexCoords;
+	vec3 m_Tangent;
+	vec3 m_Bitangent;
 };
 
 enum TextureType

@@ -30,8 +30,8 @@ void Mesh::Init()
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, m_Vertices.size() * sizeof(Vertex), &m_Vertices[0], GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ARRAY_BUFFER, m_Indices.size() * sizeof(unsigned int), &m_Indices[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Indices.size() * sizeof(unsigned int), &m_Indices[0], GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(0));
@@ -41,6 +41,13 @@ void Mesh::Init()
 
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, m_TexCoords)));
+
+	// vertex tangent
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, m_Tangent)));
+	// vertex bitangent
+	glEnableVertexAttribArray(4);
+	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, m_Bitangent)));
 
 	glBindVertexArray(0);
 }
@@ -62,18 +69,26 @@ void Mesh::Draw(Shader i_Shader)
 		case SPECULAR:
 			s = "texture_specular" + std::to_string(i + 1);
 			break;
+		case NORMAL:
+			s = "texture_normal" + std::to_string(i + 1);
+			break;
+		case HEIGHT:
+			s = "texture_height" + std::to_string(i + 1);
+			break;
 		default:
 			break;
 		}
 
-		i_Shader.setFloat(("material." + s).c_str(), i);
+		glUniform1i(glGetUniformLocation(i_Shader.GetID(), s.c_str()), i);
+		//i_Shader.setInt(s.c_str(), i);
 		glBindTexture(GL_TEXTURE_2D, m_Textures[i].m_ID);
 	}
-	glActiveTexture(GL_TEXTURE0);
 
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+
+	glActiveTexture(GL_TEXTURE0);
 }
 
 
