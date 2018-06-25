@@ -144,57 +144,58 @@ int main()
 
 	float CubeVertices[] =
 	{
+		-0.5f, -0.5f, -0.5f, 
+		0.5f, -0.5f, -0.5f,  
+		0.5f,  0.5f, -0.5f,  
+		0.5f,  0.5f, -0.5f,  
+		-0.5f,  0.5f, -0.5f, 
+		-0.5f, -0.5f, -0.5f, 
 
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f, 
+		0.5f, -0.5f,  0.5f,  
+		0.5f,  0.5f,  0.5f,  
+		0.5f,  0.5f,  0.5f,  
+		-0.5f,  0.5f,  0.5f, 
+		-0.5f, -0.5f,  0.5f, 
 
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f, 
+		-0.5f,  0.5f, -0.5f, 
+		-0.5f, -0.5f, -0.5f, 
+		-0.5f, -0.5f, -0.5f, 
+		-0.5f, -0.5f,  0.5f, 
+		-0.5f,  0.5f,  0.5f, 
 
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,  
+		0.5f,  0.5f, -0.5f,  
+		0.5f, -0.5f, -0.5f,  
+		0.5f, -0.5f, -0.5f,  
+		0.5f, -0.5f,  0.5f,  
+		0.5f,  0.5f,  0.5f,  
 
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f, 
+		0.5f, -0.5f, -0.5f,  
+		0.5f, -0.5f,  0.5f,  
+		0.5f, -0.5f,  0.5f,  
+		-0.5f, -0.5f,  0.5f, 
+		-0.5f, -0.5f, -0.5f, 
 
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+		-0.5f,  0.5f, -0.5f, 
+		0.5f,  0.5f, -0.5f,  
+		0.5f,  0.5f,  0.5f,  
+		0.5f,  0.5f,  0.5f,  
+		-0.5f,  0.5f,  0.5f, 
+		-0.5f,  0.5f, -0.5f
 	};
-
+	
+	
+	unsigned LightVAO;
+	glGenVertexArrays(1, &LightVAO);
+	
 	unsigned int VBO;
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(CubeVertices), CubeVertices, GL_STATIC_DRAW);
-
-	unsigned LightVAO;
-	glGenVertexArrays(1, &LightVAO);
+	
 	glBindVertexArray(LightVAO);
 
 	// position attribute
@@ -209,7 +210,7 @@ int main()
 	// 	shader.use();
 	// 	shader.setInt("texture_diffuse1", 0);
 
-	vec3 LightPos(1.2f, 1.0f, 2.0f);
+	vec3 LightPos(5.0f, -2.0f, 1.0f);
 
 	//render loop
 	while (!glfwWindowShouldClose(window))
@@ -238,41 +239,29 @@ int main()
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-		int modelHandler = glGetUniformLocation(shader.GetID(), "model");
-		glUniformMatrix4fv(modelHandler, 1, GL_FALSE, glm::value_ptr(model));
-
+		shader.setMat4("model", model);
+		
 		glm::mat4 view = MainCamera.GetViewMatrix();
-		//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-
+		shader.setMat4("view", view);
 		glm::mat4 projection = glm::perspective(MainCamera.GetZoom(), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);		
-
-		int viewHandler = glGetUniformLocation(shader.GetID(), "view");
-		glUniformMatrix4fv(viewHandler, 1, GL_FALSE, glm::value_ptr(view));
-
-		int projectionHandler = glGetUniformLocation(shader.GetID(), "projection");
-		glUniformMatrix4fv(projectionHandler, 1, GL_FALSE, glm::value_ptr(projection));
-
-// 		glm::mat4 model;
-// 		model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
-// 		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
-
-// 		glBindVertexArray(VAO);
-// 		for (unsigned int i = 0; i < 10; i++)
-// 		{
-// 			// calculate the model matrix for each object and pass it to shader before drawing
-// 			glm::mat4 model;
-// 			model = glm::translate(model, cubePositions[i]);
-// 			float angle = 20.0f * i;
-// 			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-// 			int modelHandler = glGetUniformLocation(shader.GetID(), "model");
-// 			glUniformMatrix4fv(modelHandler, 1, GL_FALSE, glm::value_ptr(model));
-// 
-// 			glDrawArrays(GL_TRIANGLES, 0, 36);
-// 		}	
+		shader.setMat4("projection", projection);
 
 		//render
 		gameobj.Draw(shader);
 
+
+		LightShader.use();
+		// 		LightShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+		// 		LightShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+
+		glm::mat4 LightModel;
+		LightModel = glm::translate(LightModel, LightPos);
+		LightModel = glm::scale(LightModel, glm::vec3(0.2f, 0.2f, 0.2f));
+		LightShader.setMat4("model", LightModel);
+		LightShader.setMat4("view", view);
+		LightShader.setMat4("projection", projection);
+		glBindVertexArray(LightVAO);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		//swap buffers
 		glfwSwapBuffers(window);//when one frame is rendered in the back end, swap it to front end	
@@ -280,8 +269,8 @@ int main()
 		glfwPollEvents();			
 	}
 
-// 	glDeleteVertexArrays(1, &VAO);
-// 	glDeleteBuffers(1, &VBO);
+	glDeleteVertexArrays(1, &LightVAO);
+	glDeleteBuffers(1, &VBO);
 
 	//release resources;
 	glfwTerminate();
