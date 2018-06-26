@@ -15,7 +15,7 @@ void main()
 {
 	FragPos = vec3(model * vec4(aPos, 1.0));
 
-    Normal = mat3(transpose(inverse(model))) * aNormal;//将局部的法线坐标转为世界坐标
+    Normal = mat3(transpose(inverse(model))) * aNormal;//乘以法线矩阵
 
     TexCoords = aTexCoords;    
     gl_Position = projection * view * model * vec4(aPos, 1.0);

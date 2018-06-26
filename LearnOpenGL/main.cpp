@@ -245,15 +245,21 @@ int main()
 		shader.setMat4("view", view);
 		glm::mat4 projection = glm::perspective(MainCamera.GetZoom(), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);		
 		shader.setMat4("projection", projection);
-		shader.setVec3("lightColor", 1.0f, 0.5f, 0.3f);
-		shader.setVec3("objectColor", 0.3f, 0.5f, 1.0f);
 		vec3 LightPos1 = LightPos + vec3(0.0f, 0.0f, sin(timeValue));
 		shader.setVec3("lightPos", LightPos1);
 		shader.setVec3("viewPos", MainCamera.GetPosition());
+		
+		shader.setVec3("material.ambient", 1.0f, 0.5f, 0.5f);
+		//shader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
+		shader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
+		shader.setFloat("material.shininess", 16.0f);
+
+		shader.setVec3("light.ambient", 0.5f, 0.5f, 0.5f);
+		shader.setVec3("light.diffuse", 0.8f, 0.8f, 0.8f);
+		shader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
 
 		//render
 		gameobj.Draw(shader);
-
 
 		LightShader.use();
 
