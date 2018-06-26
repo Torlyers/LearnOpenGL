@@ -210,7 +210,7 @@ int main()
 	// 	shader.use();
 	// 	shader.setInt("texture_diffuse1", 0);
 
-	vec3 LightPos(5.0f, -2.0f, 1.0f);
+	vec3 LightPos(5.0f, -1.5f, 1.0f);
 
 	//render loop
 	while (!glfwWindowShouldClose(window))
@@ -237,7 +237,7 @@ int main()
 		glm::mat4 model;
 		model = glm::translate(model, glm::vec3(5.0f, 2.0f, 0.0f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, (float)timeValue, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
 		shader.setMat4("model", model);
 		
@@ -257,6 +257,10 @@ int main()
 		shader.setVec3("light.ambient", 0.5f, 0.5f, 0.5f);
 		shader.setVec3("light.diffuse", 0.8f, 0.8f, 0.8f);
 		shader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+
+		shader.setFloat("light.constant",  1.0f);
+		shader.setFloat("light.linear",    0.09f);
+		shader.setFloat("light.quadratic", 0.03f);
 
 		//render
 		gameobj.Draw(shader);

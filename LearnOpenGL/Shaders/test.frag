@@ -15,11 +15,14 @@ struct Material
 
 struct Light
 {
-	//光照在每个分量的强度
     vec3 position;
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
+
+	float constant;
+	float linear;
+	float quadratic;
 };
 
 uniform Material material;
@@ -39,15 +42,18 @@ void main()
     // 漫反射 
     vec3  norm = normalize(Normal);
     vec3  lightDir = normalize(lightPos - FragPos);
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = light.diffuse * diff * vec3(texture(material.diffuse, TexCoords));//后面再乘一次什么意思
+    float diff = max(dot(norm, lightDir), 0.0);//随角度变化递减
+    vec3 diffuse = light.diffuse * diff * vec3(texture(material.diffuse, TexCoords));
 
     // 镜面光
     vec3  viewDir = normalize(viewPos - FragPos);
-    vec3  reflectDir = reflect(-lightDir, norm);  
+    vec3  reflectDir = reflect(-lightDir, norm); //用入射光和法线计算反射光 
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
     vec3  specular = light.specular * (spec * material.specular);
 
-    vec3  result = ambient + diffuse + specular;
+	float dist = length(light.position - FragPos);
+	float attenuation = 1.0/(light.constant + light.linear * dist + light.quadratic * dist * dist);
+
+    vec3  result = (ambient + diffuse + specular) * attenuation;
     FragColor = vec4(result, 1.0);
 }
