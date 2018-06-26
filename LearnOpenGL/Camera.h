@@ -30,6 +30,7 @@ public:
 	mat4   GetViewMatrix();
 	
 	float  GetZoom() { return m_Zoom; }
+	inline vec3 GetPosition(){ return m_Position; }
 
 	inline void SetPosition(const vec3 & i_Position)       { m_Position = i_Position; }
 	inline void SetEularAngles(const vec3 & i_EularAngles) { m_EularAngles = i_EularAngles; }
