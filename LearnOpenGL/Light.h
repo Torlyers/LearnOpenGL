@@ -18,7 +18,7 @@ class Light
 public:
 	Light();
 	Light(const vec3 & i_Color, const vec3 & i_Position);
-	virtual	~Light() = 0;
+	virtual	~Light();
 
 	inline vec3  GetColor() { return m_Color; }
 	inline void  SetColor(const vec3 & i_Color) { m_Color = i_Color; }
@@ -46,7 +46,7 @@ public:
 
 	inline vec3 GetDirection() { return m_Direction; }
 	inline void SetDirection(const vec3 & i_Direction) { m_Direction = i_Direction; }
-private:
+protected:
 	vec3 m_Direction;
 };
 
@@ -59,19 +59,25 @@ public:
 	inline float GetRange() { return m_Range; }
 	inline void  SetRange(float i_Range) { m_Range = i_Range; }
 
-private:
+	void CalAttParameters(float & o_Constant, float & o_Linear, float & o_Quadratic);
+
+protected:
 	float m_Range;
 };
 
-class SpotLight : public ParallelLight
+class SpotLight : public PointLight
 {
 public:
-	SpotLight(const vec3 & i_Color, const vec3 & i_Position, const vec3 & i_Direction, float i_BiasAngle);
+	SpotLight(const vec3 & i_Color, const vec3 & i_Position, const vec3 & i_Direction, float i_Range, float i_BiasAngle);
 	~SpotLight();
 
 	inline float GetBiasAngle() { return m_BiasAngle; }
 	inline void  SetBiasAngle(float i_BiasAngle) { m_BiasAngle = i_BiasAngle; }
 
+	inline vec3 GetDirection() { return m_Direction; }
+	inline void SetDirection(const vec3 & i_Direction) { m_Direction = i_Direction; }
+
 private:
 	float m_BiasAngle;
+	vec3  m_Direction;
 };

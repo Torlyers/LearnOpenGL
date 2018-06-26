@@ -12,6 +12,7 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "Model.h"
+#include "Light.h"
 
 // settings
 const unsigned int SCR_POS_X = 0;
@@ -211,6 +212,9 @@ int main()
 	// 	shader.setInt("texture_diffuse1", 0);
 
 	vec3 LightPos(5.0f, -1.5f, 1.0f);
+	vec3 LightColor(1.0f, 0.5f, 0.3f);
+	float LightRange = 20.0f;
+	PointLight pol(LightColor, LightPos, LightRange);
 
 	//render loop
 	while (!glfwWindowShouldClose(window))
@@ -243,24 +247,29 @@ int main()
 		
 		glm::mat4 view = MainCamera.GetViewMatrix();
 		shader.setMat4("view", view);
+
 		glm::mat4 projection = glm::perspective(MainCamera.GetZoom(), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);		
 		shader.setMat4("projection", projection);
-		vec3 LightPos1 = LightPos + vec3(0.0f, 0.0f, sin(timeValue));
-		shader.setVec3("lightPos", LightPos1);
+				
 		shader.setVec3("viewPos", MainCamera.GetPosition());
 		
 		shader.setVec3("material.ambient", 1.0f, 0.5f, 0.5f);
 		//shader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
-		shader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
+		//shader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
 		shader.setFloat("material.shininess", 16.0f);
 
-		shader.setVec3("light.ambient", 0.5f, 0.5f, 0.5f);
-		shader.setVec3("light.diffuse", 0.8f, 0.8f, 0.8f);
-		shader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+		vec3 LightPos1 = LightPos + vec3(0.0f, 0.0f, sin(timeValue));
+		shader.setVec3("pointLight.position", LightPos1);
 
-		shader.setFloat("light.constant",  1.0f);
-		shader.setFloat("light.linear",    0.09f);
-		shader.setFloat("light.quadratic", 0.03f);
+		shader.setVec3("pointLight.ambient", pol.GetColor() * 0.5f);
+		shader.setVec3("pointLight.diffuse", pol.GetColor() * 0.8f);
+		shader.setVec3("pointLight.specular", pol.GetColor() * 0.9f);
+
+		float c, l, q;
+		pol.CalAttParameters(c, l, q);
+		shader.setFloat("pointLight.constant",  c);
+		shader.setFloat("pointLight.linear",    l);
+		shader.setFloat("pointLight.quadratic", q);
 
 		//render
 		gameobj.Draw(shader);
