@@ -87,7 +87,7 @@ int GenerateTexture(const char* image_path)//可以用类封装一下
 	stbi_set_flip_vertically_on_load(true);//coordinate of image and OpenGL is different
 	int width, height, nrChannels;
 	unsigned char *data = stbi_load(image_path, &width, &height, &nrChannels, 0);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	stbi_image_free(data);//free image after generating textures
@@ -140,6 +140,9 @@ int main()
 	glEnable(GL_STENCIL_TEST);
 	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
 	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+
+	//enable face calling
+	glEnable(GL_CULL_FACE);
 	
 	//render size, set it to window size
 	glViewport(SCR_POS_X, SCR_POS_Y, SCR_WIDTH, SCR_HEIGHT);
