@@ -71,6 +71,7 @@ void main()
 	vec3 result = CalPointLight(pointLight, norm, FragPos, viewDir);
 
 	FragColor = vec4(result, 1.0f);
+	//FragColor = vec4(vec3(gl_FragCoord.z), 1.0);
 }
 
 vec3 CalParallelLight(ParallelLight i_light, vec3 i_normal, vec3 i_viewDir)

@@ -171,6 +171,7 @@
   <ItemGroup>
     <None Include="Shaders\light.frag" />
     <None Include="Shaders\light.vert" />
+    <None Include="Shaders\SingleColor.frag" />
     <None Include="Shaders\test.frag" />
     <None Include="Shaders\test.vert" />
   </ItemGroup>

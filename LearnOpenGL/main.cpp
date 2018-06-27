@@ -134,12 +134,19 @@ int main()
 
 	//enable z-buffer
 	glEnable(GL_DEPTH_TEST);
-
+	glDepthFunc(GL_LESS);
+	
+	//enable stencil test
+	glEnable(GL_STENCIL_TEST);
+	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+	
 	//render size, set it to window size
 	glViewport(SCR_POS_X, SCR_POS_Y, SCR_WIDTH, SCR_HEIGHT);
 	
 	Shader shader("Shaders/test.vert", "Shaders/test.frag");
 	Shader LightShader("Shaders/light.vert", "Shaders/light.frag");
+	Shader SingleColorShader("Shaders/test.vert", "Shaders/SingleColor.frag");
 
 	Model gameobj("Assets/nanosuit/nanosuit.obj");
 
@@ -186,8 +193,7 @@ int main()
 		0.5f,  0.5f,  0.5f,  
 		-0.5f,  0.5f,  0.5f, 
 		-0.5f,  0.5f, -0.5f
-	};
-	
+	};	
 	
 	unsigned LightVAO;
 	glGenVertexArrays(1, &LightVAO);
@@ -202,14 +208,6 @@ int main()
 	// position attribute
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-	// texture coord attribute
-	// 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	// 	glEnableVertexAttribArray(2);
-
-	//unsigned int texture1 = GenerateTexture("Assets/1.jpg");
-
-	// 	shader.use();
-	// 	shader.setInt("texture_diffuse1", 0);
 
 	vec3 LightPos(5.0f, -1.5f, 1.0f);
 	vec3 LightColor(1.0f, 0.5f, 0.3f);
@@ -229,53 +227,26 @@ int main()
 
 		//render background
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);//deep green
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);//use deep green to clear the screen
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);//use deep green to clear the screen
 
-// 		glActiveTexture(GL_TEXTURE0);
-// 		glBindTexture(GL_TEXTURE_2D, texture1);
 		//transform
 		double timeValue = glfwGetTime();
-
-		shader.use();
+		
 		
 		glm::mat4 model;
 		model = glm::translate(model, glm::vec3(5.0f, 2.0f, 0.0f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::rotate(model, (float)timeValue, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-		shader.setMat4("model", model);
-		
 		glm::mat4 view = MainCamera.GetViewMatrix();
-		shader.setMat4("view", view);
-
-		glm::mat4 projection = glm::perspective(MainCamera.GetZoom(), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);		
-		shader.setMat4("projection", projection);
-				
-		shader.setVec3("viewPos", MainCamera.GetPosition());
-		
-		shader.setVec3("material.ambient", 1.0f, 0.5f, 0.5f);
-		//shader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
-		//shader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
-		shader.setFloat("material.shininess", 16.0f);
-
+		glm::mat4 projection = glm::perspective(MainCamera.GetZoom(), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		vec3 LightPos1 = LightPos + vec3(0.0f, 0.0f, sin(timeValue));
-		shader.setVec3("pointLight.position", LightPos1);
-
-		shader.setVec3("pointLight.ambient", pol.GetColor() * 0.5f);
-		shader.setVec3("pointLight.diffuse", pol.GetColor() * 0.8f);
-		shader.setVec3("pointLight.specular", pol.GetColor() * 0.9f);
-
-		float c, l, q;
-		pol.CalAttParameters(c, l, q);
-		shader.setFloat("pointLight.constant",  c);
-		shader.setFloat("pointLight.linear",    l);
-		shader.setFloat("pointLight.quadratic", q);
+		
 
 		//render
-		gameobj.Draw(shader);
 
+		//light cube
 		LightShader.use();
-
 		glm::mat4 LightModel;
 		LightModel = glm::translate(LightModel, LightPos1);
 		LightModel = glm::scale(LightModel, glm::vec3(0.2f, 0.2f, 0.2f));
@@ -284,6 +255,46 @@ int main()
 		LightShader.setMat4("projection", projection);
 		glBindVertexArray(LightVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		//model
+		shader.use();
+		shader.setMat4("model", model);
+		shader.setMat4("view", view);
+		shader.setMat4("projection", projection);
+		shader.setVec3("viewPos", MainCamera.GetPosition());
+
+		shader.setVec3("material.ambient", 1.0f, 0.5f, 0.5f);
+		//shader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
+		//shader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
+		shader.setFloat("material.shininess", 16.0f);
+		
+		shader.setVec3("pointLight.position", LightPos1);
+		shader.setVec3("pointLight.ambient", pol.GetColor() * 0.5f);
+		shader.setVec3("pointLight.diffuse", pol.GetColor() * 0.8f);
+		shader.setVec3("pointLight.specular", pol.GetColor() * 0.9f);
+
+		float c, l, q;
+		pol.CalAttParameters(c, l, q);
+		shader.setFloat("pointLight.constant", c);
+		shader.setFloat("pointLight.linear", l);
+		shader.setFloat("pointLight.quadratic", q);
+
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		glStencilMask(0xFF);//将模版缓冲模型覆盖的部分都写为1
+		shader.use();
+		gameobj.Draw(shader);
+
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);//只绘制模板值不为1的部分
+		glStencilMask(0x00);
+		glDisable(GL_DEPTH_TEST);
+		SingleColorShader.use();
+		model = glm::scale(model, glm::vec3(1.01f, 1.01f, 1.01f));
+		SingleColorShader.setMat4("model", model);
+		SingleColorShader.setMat4("view", view);
+		SingleColorShader.setMat4("projection", projection);
+		gameobj.Draw(SingleColorShader);
+		glStencilMask(0xFF);
+		glEnable(GL_DEPTH_TEST); //完成之后重新启用深度缓冲		
 
 		//swap buffers
 		glfwSwapBuffers(window);//when one frame is rendered in the back end, swap it to front end	

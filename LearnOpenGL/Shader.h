@@ -7,7 +7,10 @@
 #include <sstream>
 #include <iostream>
 
+#include "glm/glm.hpp"
+
 using namespace std;
+
 
 class Shader
 {
