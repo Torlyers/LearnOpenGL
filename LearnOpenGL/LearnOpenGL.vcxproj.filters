@@ -39,6 +39,12 @@
     <ClCompile Include="Light.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="File.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\1.jpg">
@@ -70,6 +76,12 @@
     <ClInclude Include="Light.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="SkyBox.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\test.frag">
@@ -85,6 +97,12 @@
       <Filter>资源文件</Filter>
     </None>
     <None Include="Shaders\SingleColor.frag">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Shaders\Skybox.frag">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Shaders\Skybox.vert">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
