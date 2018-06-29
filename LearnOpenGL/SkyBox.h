@@ -59,6 +59,10 @@ public:
 
 	void Draw(Shader i_Shader);
 
+	inline int GetCubeTex() { return m_CubeTexture; }
+
+	static SkyBox* Instance();
+
 private:
 	vector<string> m_FacePaths;
 	int m_CubeTexture;
@@ -66,5 +70,7 @@ private:
 	unsigned int VAO, VBO;
 
 	void Init();
+
+	static SkyBox* m_Instance;
 };
 

@@ -1,6 +1,16 @@
 #include "SkyBox.h"
 #include "Settings.h"
 
+SkyBox* SkyBox::m_Instance = nullptr;
+
+SkyBox* SkyBox::Instance()
+{
+	if (m_Instance == nullptr)
+		m_Instance = new SkyBox();
+
+	return m_Instance;
+}
+
 
 SkyBox::SkyBox()
 {

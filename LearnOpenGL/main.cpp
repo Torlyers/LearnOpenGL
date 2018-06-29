@@ -131,6 +131,7 @@ int main()
 	Shader ModelShader("Shaders/test.vert", "Shaders/test.frag");
 	Shader SingleColorShader("Shaders/test.vert", "Shaders/SingleColor.frag");
 	Shader SkyBoxShader("Shaders/Skybox.vert", "Shaders/Skybox.frag");
+	Shader ReflectShader("Shaders/Reflect.vert", "Shaders/Reflect.frag");
 
 	//Objects
 	Model gameobj("Assets/nanosuit/nanosuit.obj");
@@ -209,11 +210,12 @@ int main()
 		ModelShader.setVec3("paraLight.diffuse", pal.GetColor() * 0.2f);
 		ModelShader.setVec3("paraLight.specular", pal.GetColor() * 0.2f);
 
-		glStencilFunc(GL_ALWAYS, 1, 0xFF);
-		glStencilMask(0xFF);//将模版缓冲模型覆盖的部分都写为1
+// 		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+// 		glStencilMask(0xFF);//将模版缓冲模型覆盖的部分都写为1
 		ModelShader.use();
 		gameobj.Draw(ModelShader);
 
+		//Reflect model
 		model = translate(model, -GameObjPos);
 		model = translate(model, ReflectObjPos);
 		ModelShader.setMat4("model", model);
@@ -223,7 +225,7 @@ int main()
 		model = translate(model, RefractObjPos);
 		ModelShader.setMat4("model", model);
 		RefractObj.Draw(ModelShader);
-
+		
 		//skybox
 		glDepthFunc(GL_LEQUAL);
 		SkyBoxShader.use();

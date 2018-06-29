@@ -76,10 +76,10 @@
     <ClInclude Include="Light.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="SkyBox.h">
+    <ClInclude Include="Settings.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Settings.h">
+    <ClInclude Include="SkyBox.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -103,6 +103,18 @@
       <Filter>资源文件</Filter>
     </None>
     <None Include="Shaders\Skybox.vert">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Shaders\Reflect.frag">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Shaders\Reflect.vert">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Shaders\Refract.frag">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="Shaders\Refract.vert">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>

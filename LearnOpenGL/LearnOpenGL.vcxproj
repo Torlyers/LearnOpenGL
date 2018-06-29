@@ -175,6 +175,10 @@
   <ItemGroup>
     <None Include="Shaders\light.frag" />
     <None Include="Shaders\light.vert" />
+    <None Include="Shaders\Reflect.frag" />
+    <None Include="Shaders\Reflect.vert" />
+    <None Include="Shaders\Refract.frag" />
+    <None Include="Shaders\Refract.vert" />
     <None Include="Shaders\SingleColor.frag" />
     <None Include="Shaders\Skybox.frag" />
     <None Include="Shaders\Skybox.vert" />
