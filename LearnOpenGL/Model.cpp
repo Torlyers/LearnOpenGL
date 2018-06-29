@@ -12,6 +12,13 @@ Model::Model(const char * path) :
 	Init();
 }
 
+Model::Model(const Model & i_other)
+{
+	m_Meshes = i_other.m_Meshes;
+	textures_loaded = i_other.textures_loaded;
+	m_Directory = i_other.m_Directory;
+	m_FilePath = i_other.m_FilePath;
+}
 
 Model::~Model()
 {

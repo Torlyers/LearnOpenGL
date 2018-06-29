@@ -20,6 +20,7 @@ public:
 	
 	Model();
 	Model(const char* path);
+	Model(const Model & i_other);
 	~Model();
 
 	void Init();

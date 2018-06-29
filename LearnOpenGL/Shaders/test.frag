@@ -68,7 +68,8 @@ void main()
 	vec3 norm    = normalize(Normal);
     vec3 viewDir = normalize(viewPos - FragPos);
 
-	vec3 result = CalPointLight(pointLight, norm, FragPos, viewDir);
+	vec3 result = CalPointLight(pointLight, norm, FragPos, viewDir) +
+				  CalParallelLight(paraLight, norm, viewDir);
 
 	FragColor = vec4(result, 1.0f);
 	//FragColor = vec4(vec3(gl_FragCoord.z), 1.0);

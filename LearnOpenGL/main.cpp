@@ -119,7 +119,7 @@ int main()
 	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
 	//enable face calling
-	//glEnable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
 
 	//enable multi-sample
 	glEnable(GL_MULTISAMPLE);
@@ -127,17 +127,30 @@ int main()
 	//render size, set it to window size
 	glViewport(SCR_POS_X, SCR_POS_Y, SCR_WIDTH, SCR_HEIGHT);
 	
+	//Shaders
 	Shader ModelShader("Shaders/test.vert", "Shaders/test.frag");
 	Shader SingleColorShader("Shaders/test.vert", "Shaders/SingleColor.frag");
 	Shader SkyBoxShader("Shaders/Skybox.vert", "Shaders/Skybox.frag");
 
+	//Objects
 	Model gameobj("Assets/nanosuit/nanosuit.obj");
+	Model ReflectObj = gameobj;
+	Model RefractObj = gameobj;
+	
+	vec3 GameObjPos(5.0f, 2.0f, 0.0f);
+	vec3 ReflectObjPos(-5.0f, 2.0f, 0.0f);
+	vec3 RefractObjPos(15.0f, 2.0f, 0.0f);
+
 	SkyBox skybox;
 
+	
 	vec3 LightPos(5.0f, -1.5f, 1.0f);
-	vec3 LightColor(1.0f, 1.0f, 0.8f);
+	vec3 LightColor(1.0f, 1.0f, 1.0f);
+	vec3 ParaColor(1.0f, 1.0f, 0.8f);
+	vec3 LightDir(-0.2f, -1.0f, -0.3);
 	float LightRange = 20.0f;
 	PointLight pol(LightColor, LightPos, LightRange);
+	ParallelLight pal(ParaColor, LightPos, LightDir);
 
 	//render loop
 	while (!glfwWindowShouldClose(window))
@@ -155,20 +168,61 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);//use deep green to clear the screen
 
 		//transform
-		double timeValue = glfwGetTime();
-		
+		double timeValue = glfwGetTime();		
 		
 		glm::mat4 model;
 		model = glm::translate(model, glm::vec3(5.0f, 2.0f, 0.0f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::rotate(model, (float)timeValue, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
 		glm::mat4 view = MainCamera.GetViewMatrix();
 		glm::mat4 projection = glm::perspective(MainCamera.GetZoom(), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-		vec3 LightPos1 = LightPos + vec3(0.0f, 0.0f, sin(timeValue));
-		
+		vec3 LightPos1 = LightPos + vec3(0.0f, 0.0f, sin(timeValue));		
 
-		//render
+		//render		
+
+		//model
+		ModelShader.use();
+		ModelShader.setMat4("model", model);
+		ModelShader.setMat4("view", view);
+		ModelShader.setMat4("projection", projection);
+		ModelShader.setVec3("viewPos", MainCamera.GetPosition());
+
+		ModelShader.setVec3("material.ambient", 1.0f, 1.0f, 0.8f);
+		//shader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
+		//shader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
+		ModelShader.setFloat("material.shininess", 32.0f);
+		
+		ModelShader.setVec3("pointLight.position", LightPos1);
+		ModelShader.setVec3("pointLight.ambient", pol.GetColor() * 0.8f);
+		ModelShader.setVec3("pointLight.diffuse", pol.GetColor() * 0.8f);
+		ModelShader.setVec3("pointLight.specular", pol.GetColor() * 0.8f);
+
+		float c, l, q;
+		pol.CalAttParameters(c, l, q);
+		ModelShader.setFloat("pointLight.constant", c);
+		ModelShader.setFloat("pointLight.linear", l);
+		ModelShader.setFloat("pointLight.quadratic", q);
+
+		ModelShader.setVec3("paraLight.direction", LightDir);
+		ModelShader.setVec3("paraLight.ambient", pal.GetColor() * 0.2f);
+		ModelShader.setVec3("paraLight.diffuse", pal.GetColor() * 0.2f);
+		ModelShader.setVec3("paraLight.specular", pal.GetColor() * 0.2f);
+
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		glStencilMask(0xFF);//将模版缓冲模型覆盖的部分都写为1
+		ModelShader.use();
+		gameobj.Draw(ModelShader);
+
+		model = translate(model, -GameObjPos);
+		model = translate(model, ReflectObjPos);
+		ModelShader.setMat4("model", model);
+		ReflectObj.Draw(ModelShader);
+
+		model = translate(model, -ReflectObjPos);
+		model = translate(model, RefractObjPos);
+		ModelShader.setMat4("model", model);
+		RefractObj.Draw(ModelShader);
 
 		//skybox
 		glDepthFunc(GL_LEQUAL);
@@ -179,34 +233,6 @@ int main()
 		SkyBoxShader.setMat4("projection", projection);
 		skybox.Draw(SkyBoxShader);
 		glDepthFunc(GL_LESS);
-
-		//model
-		ModelShader.use();
-		ModelShader.setMat4("model", model);
-		ModelShader.setMat4("view", view);
-		ModelShader.setMat4("projection", projection);
-		ModelShader.setVec3("viewPos", MainCamera.GetPosition());
-
-		ModelShader.setVec3("material.ambient", 1.0f, 0.5f, 0.5f);
-		//shader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
-		//shader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
-		ModelShader.setFloat("material.shininess", 16.0f);
-		
-		ModelShader.setVec3("pointLight.position", LightPos1);
-		ModelShader.setVec3("pointLight.ambient", pol.GetColor() * 0.5f);
-		ModelShader.setVec3("pointLight.diffuse", pol.GetColor() * 0.8f);
-		ModelShader.setVec3("pointLight.specular", pol.GetColor() * 0.9f);
-
-		float c, l, q;
-		pol.CalAttParameters(c, l, q);
-		ModelShader.setFloat("pointLight.constant", c);
-		ModelShader.setFloat("pointLight.linear", l);
-		ModelShader.setFloat("pointLight.quadratic", q);
-
-		glStencilFunc(GL_ALWAYS, 1, 0xFF);
-		glStencilMask(0xFF);//将模版缓冲模型覆盖的部分都写为1
-		ModelShader.use();
-		gameobj.Draw(ModelShader);
 
 
 // 		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);//只绘制模板值不为1的部分
